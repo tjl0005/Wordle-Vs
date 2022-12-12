@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+hr {
+    width: 300px;
+}
+
+#title {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+#manual {
+    display: flex;
+    margin: auto;
+}
+
+#help {
+    margin: auto;
+    height: 300px;
+    width: 400px;
+}
+
+#stats {
+    margin: auto;
+    height: 300px;
+    width: 200px;
+}
+
+#modes {
+    margin: auto;
+    height: 300px;
+    width: 400px;
+}

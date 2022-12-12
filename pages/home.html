@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Manual</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://www.freeiconspng.com/thumbs/idea-icon/ideas-light-bulb-icon-16.png">
+    <meta name="viewport" content="width=device-width, initial-scale=0, user-scalable=no">
+    <link rel="stylesheet" href="../style/home.css">
+</head>
+<body>
+<h1>Wordle Vs.</h1>
+<hr>
+<button id="home">Play</button>
+<div id="manual">
+    <div id="help">
+        <h2>How it Works</h2>
+        <p>So, each turn you make a guess of a 5-letter word. Each turn you make you will find out what letters are in the word
+            (Yellow) and which letters are in the word and the same location (Green). In this version of the game you have
+            competition.
+            <br><br>
+            Each turn you make will be followed by the competitor, and it's your job to get the word first.
+            <br><br>
+            Good luck! But also enjoy.
+        </p>
+    </div>
+    <div id="stats">
+        <h2>Your Statistics</h2>
+        <p>Your current streak is: 0</p>
+        <p id="mode_label">Your currently playing in Default mode</p>
+    </div>
+    <div id="modes">
+        <h2>Modes</h2>
+        <h3>Easy</h3>
+        <p>You get to see the competitors guesses and their colours</p>
+        <button id="easy_mode">Select</button>
+        <h3>Default</h3>
+        <p>You get to the see the competitors colours</p>
+        <button id="default_mode">Select</button>
+        <h3>Hard</h3>
+        <p>You get to see nothing, just if your competitor is winning</p>
+        <button id="hard_mode">Select</button>
+    </div>
+</div>
+</body>
+<script>
+    document.getElementById("home").onclick = function () {
+        location.href = "game.html";
+    };
+    document.getElementById("easy_mode").onclick = function () {
+        document.getElementById("mode_label").innerText = "Your currently playing in Easy mode"
+    };
+    document.getElementById("default_mode").onclick = function () {
+        document.getElementById("mode_label").innerText = "Your currently playing in Default mode"
+    };
+    document.getElementById("hard_mode").onclick = function () {
+        document.getElementById("mode_label").innerText = "Your currently playing in Hard mode"
+    };
+</script>
+</html>

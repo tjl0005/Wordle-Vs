@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wordle Vs.</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://www.freeiconspng.com/thumbs/idea-icon/ideas-light-bulb-icon-16.png">
+    <meta name="viewport" content="width=device-width, initial-scale=0, user-scalable=no">
+    <script src="../script/game.js"></script>
+    <link rel="stylesheet" href="../style/game.css">
+</head>
+
+<body>
+<h1>Wordle Vs.</h1>
+<hr>
+<button onclick="redirectHome()">Home</button>
+<div id="boards">
+    <div id="player_board"></div>
+    <div id="hints">
+        <h2>Your Hints</h2>
+        <button onclick="giveHint()">I need a hint</button>
+        <p id="hint_one"></p>
+        <p id="hint_two"></p>
+        <p id="hint_three"></p>
+        <p id="final_hint"></p>
+        <button onclick="makeMove()">Step through</button>
+    </div>
+    <div id="vs_board"></div>
+</div>
+<div id="restart">
+    <h2 id="answer"></h2>
+</div>
+<div id="keyboard"></div>
+    <div id="checkup" hidden>
+        <div class="confirm-box">
+            <p>Is the game going well?</p>
+            <button onclick="confirmAlert(true)">Brilliant</button>
+            <button onclick="confirmAlert(false)">Terribly</button>
+        </div>
+</div>
+<br>
+</body>
+</html>
