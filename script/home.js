@@ -36,14 +36,6 @@ function getCookie(cname) {
     return "";
 }
 
-// Alert user to current cookie values
-function checkCookies(){
-    let mode = getCookie("userMode");
-    let streak = getCookie("streak");
-
-    alert("Playing in " + mode + " mode \nYour streak " + streak);
-}
-
 // Update game mode to given value
 function setMode(mode){
     if (mode === ""){
