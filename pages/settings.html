@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wordle Vs.</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://www.freeiconspng.com/thumbs/idea-icon/ideas-light-bulb-icon-16.png">
+    <meta name="viewport" content="width=device-width, initial-scale=0, user-scalable=no">
+    <script src="../script/settings.js"></script>
+    <link rel="stylesheet" href="../style/settings.css">
+    <link rel="stylesheet" href="../style/common.css">
+</head>
+<body>
+<h1>Wordle Vs.</h1>
+<hr>
+<button onclick="redirect('home')">Home</button>
+<button onclick="redirect('game')">Play</button>
+<button onclick="redirect('settings')">Settings</button>
+<div id="settings">
+    <div id="display">
+        <h2>Display</h2>
+        <p>Dark Mode
+            <button id="darkMode" onclick="updateSetting('darkMode')"></button>
+        </p>
+        <p>Font size</p>
+        <p id="displayFont">
+            <button id="fontReduce" onclick="updateFont('reduce')">-</button>
+            Aa
+            <button id="fontIncrease" onclick="updateFont('increase')">+</button>
+        </p>
+        <!--Update display cookies here-->
+        <button onclick="">Apply</button>
+    </div>
+    <div id="difficulty">
+        <h2>Custom Difficulty<button onclick="
+        alert('This section refers to the visibility of each boards letters and colours. By default when your ' +
+          'competitor makes a guess you can see their word and the colour of each letter, but here you can customise ' +
+          'this.\n\n'+
+          'If you want a more competitive game then you can allow your competitor to see these same details about your'+
+          ' guesses, which will inform their next guess.\n\n' +
+          'Note: These settings cannot be used in parallel to modes.')">?
+        </button></h2>
+        <p>Your Letters
+            <button id="playerLetters" onclick="updateSetting('playerLetters')"></button>
+        </p>
+        <p>Your Colours
+            <button id="playerColours" onclick="updateSetting('playerColours')"></button>
+        </p>
+        <br>
+        <p>Competitor Letters
+            <button id="compLetters" onclick="updateSetting('compLetters')"></button>
+        </p>
+        <p>Competitor Colours
+            <button id="compColours" onclick="updateSetting('compColours')"></button>
+        </p>
+    </div>
+    <div id="other">
+        <h2>Other</h2>
+        <p>Hints
+            <button id="hintsEnabled" onclick="updateSetting('hintsEnabled')"></button>
+        </p>
+        <p>Breakdown
+            <button id="breakdownEnabled" onclick="updateSetting('breakdownEnabled')"></button>
+        </p>
+        <button onclick="deleteAllCookies()">Clear Cookies</button>
+        <br><br>
+        <button onclick="updateSetting('reset')">Reset Settings</button>
+    </div>
+</div>
+</body>
+</html>

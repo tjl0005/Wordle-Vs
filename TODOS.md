@@ -1,11 +1,12 @@
 ## TODOs
-* Split common functions
-* Implement modes
-    * Easy
-    * Hard
-    * Very hard
-    * Can extend potential bot guesses
-* Styling
+### Code:
+    * Improve guessing algorithm
+    * Implement ability for competitor to see guess details (Custom/Very Hard)
+    * Tidy Code/Split common functions
+### Styling
+    * Statistics + Settings (Icon) in top right
+    * Toggle buttons
+    * Accessibility/Readability
     * Colour
     * Fonts
     * Assets

@@ -3,6 +3,7 @@ const player = "player_board";
 const vs = "vs_board";
 const height = 6; // Number of guesses
 const width = 5; // Word length
+
 let gameOver = false;
 
 // Attempt and letter number, row shared by both boards
@@ -73,9 +74,9 @@ window.onload = function gameInit(){
     document.addEventListener("keyup", (e) => { processInput(e); })
 };
 
-// Take user to the homepage
-function redirectHome(){
-    location.href = "home.html";
+// Take user to destination page
+function redirect(dest){
+    location.href = dest + ".html";
 }
 
 // Given a board reference set up their game board
@@ -111,7 +112,23 @@ function update() {
     }
 
     // Tell user how they did
-    checkGuess(player, playerRow);
+    checkGuess(player, guess, playerRow);
+
+    if ((getCookie("playerLetters") === "On" && getCookie("userMode") === "Custom")
+        || getCookie("userMode") === "Very Hard"){
+        // Competitor can see all guess details
+        if (getCookie("playerColours") === "On" || getCookie("userMode") === "Very Hard"){
+            // Not yet implemented
+            console.log("Running checkGuess on " + guess)
+        }
+        // Competitor can see the players letters but not the colours
+        else{
+            // Removing player guess from future competitor guesses
+            console.log("Removing player guess future guesses")
+            validSolutions.splice(validSolutions.indexOf(guess), 1)
+        }
+    }
+
     // Competitor makes their move
     makeMove();
 
@@ -133,12 +150,10 @@ function giveHint(){
     else{
         document.getElementById("final_hint").innerText = "Your on your own kid.";
     }
-
 }
 
-
 // Evaluate a guess and update the respective tiles
-function checkGuess(board, row, player){
+function checkGuess(board, guess, row, player){
     // Might compact these if I don't find purpose
     let correctLetters = [];
     let correctIndexes = [];
@@ -162,12 +177,13 @@ function checkGuess(board, row, player){
     // Check correct letters
     for (let col = 0; col < width; col++) {
         let currentTile = document.getElementById(board + "-" + row.toString() + '-' + col.toString());
-        let letter = currentTile.innerText;
+        let keyTile = null;
+        let letter = guess[col];
 
         // Checking letter position
         if (correctWord[col] === letter) {
             currentTile.classList.add("correct");
-            let keyTile = document.getElementById("Key" + letter);
+            keyTile = document.getElementById("Key" + letter);
             keyTile.classList.remove("present");
             keyTile.classList.add("correct");
 
@@ -183,7 +199,7 @@ function checkGuess(board, row, player){
             if (correctWord.includes(letter) && letterCount[letter] > 0) {
                 currentTile.classList.add("present");
                 // Update tile
-                let keyTile = document.getElementById("Key" + letter);
+                keyTile = document.getElementById("Key" + letter);
                 if (!keyTile.classList.contains("correct")) {
                     keyTile.classList.add("present");
 
@@ -196,10 +212,25 @@ function checkGuess(board, row, player){
             // Not a matching letter
             else {
                 currentTile.classList.add("absent");
-                let keyTile = document.getElementById("Key" + letter);
+                keyTile = document.getElementById("Key" + letter);
                 keyTile.classList.add("absent");
                 absent.push(letter)
             }
+        }
+
+        // Remove competitor colours from view if turned off by user
+        if ((getCookie("compColours") === "Off" && getCookie("userMode") === "Custom")
+            || getCookie("userMode").includes("Hard") || getCookie("userMode") === ("Default")){
+            console.log("Removing colours from competitor guess")
+            currentTile.classList.remove("absent");
+            currentTile.classList.remove("present");
+            currentTile.classList.remove("correct");
+        }
+
+        if (player === "competitor" && keyTile !== null){
+            keyTile.classList.remove("absent");
+            keyTile.classList.remove("present");
+            keyTile.classList.remove("correct");
         }
 
         if (correctLetters.length === width) {
@@ -227,46 +258,25 @@ function checkGuess(board, row, player){
     return [absent, [correctLetters, correctIndexes], [presentLetters, presentIndexes]]
 }
 
+// Optimise -> Make use of checkGuess more
 // Used to simulate the competitor making a guess by narrowing the potential solutions down each turn
 function makeMove() {
     // Using solutions to be more competitive
     let guess = validSolutions[Math.floor(Math.random() * validSolutions.length)];
 
     // Populate Vs. board
-    for (let i = 0; i < width; i++) {
-        let currentTile = document.getElementById(vs + "-" + vsRow.toString() + '-' + vsCol.toString());
-        currentTile.innerText = guess[i]; // Update contents of tile
-        vsCol += 1; // Update input tile space
+    if ((getCookie("compLetters") === "On" && getCookie("userMode") === "Custom")
+        || (!getCookie("userMode").includes("Hard") && getCookie("userMode") !== "Custom")) {
+        console.log("Displaying competitors guess letters")
+        for (let i = 0; i < width; i++) {
+            let currentTile = document.getElementById(vs + "-" + vsRow.toString() + '-' + vsCol.toString());
+            currentTile.innerText = guess[i]; // Update contents of tile
+            vsCol += 1; // Update input tile space
+        }
     }
 
-    let result = checkGuess(vs, vsRow, "competitor")
+    let result = checkGuess(vs, guess, vsRow, "competitor")
     let toDelete = []; // Delete words after searching through pool
-
-    // // Go through tiles -> If correct letter do x -> present..., absent...
-    // for (let col = 0; col < width; col++) {
-    //     let currentTile = document.getElementById(vs + "-" + vsRow.toString() + '-' + col.toString());
-    //     let letter = currentTile.innerText;
-    //     // Go through every word and check them
-    //     for (let wordIndex = 0; wordIndex < validSolutions.length; wordIndex++) {
-    //         let currentWord = validSolutions[wordIndex]
-    //
-    //         if (currentTile.classList.contains("correct")) {
-    //             if (currentWord[col] !== letter){
-    //                 toDelete.push(wordIndex)
-    //             }
-    //         } else if (currentTile.classList.contains("present")) {
-    //             // If current word does n
-    //             if (!currentWord.includes(letter) || currentWord[col] === letter){
-    //                 toDelete.push(wordIndex)
-    //             }
-    //         } else { // Absent
-    //             if (currentWord.includes(letter)){
-    //                 toDelete.push(wordIndex)
-    //             }
-    //         }
-    //     }
-    // }
-
 
     let absent = result[0];
     let correctLetters = result[1][0];
@@ -321,6 +331,13 @@ function makeMove() {
     vsCol = 0;
 
     console.log("Guess length " + validSolutions.length)
+
+    if (getCookie("userMode").includes("Hard") || getCookie("breakdownEnabled")){
+        document.getElementById("competitorDetails").innerText = "Competitor has:";
+        document.getElementById("correctNum").innerText = correctLetters.length + " correct";
+        document.getElementById("presentNum").innerText = presentLetters.length + " present";
+        document.getElementById("absentNum").innerText = absent.length + " absent";
+    }
 }
 
 // Get keyboard input and prepare to process it

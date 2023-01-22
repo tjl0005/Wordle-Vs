@@ -7,22 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=0, user-scalable=no">
     <script src="../script/game.js"></script>
     <link rel="stylesheet" href="../style/game.css">
+    <link rel="stylesheet" href="../style/common.css">
 </head>
 
 <body>
 <h1>Wordle Vs.</h1>
 <hr>
-<button onclick="redirectHome()">Home</button>
+<button onclick="redirect('home')">Home</button>
+<button onclick="redirect('game')">Play</button>
+<button onclick="redirect('settings')">Settings</button>
 <div id="boards">
     <div id="player_board"></div>
     <div id="hints">
-        <h2>Your Hints</h2>
+        <h3>Your Hints</h3>
         <button onclick="giveHint()">I need a hint</button>
         <p id="hint_one"></p>
         <p id="hint_two"></p>
         <p id="hint_three"></p>
         <p id="final_hint"></p>
         <button onclick="makeMove()">Step through</button>
+        <div>
+            <h3 id="competitorDetails"></h3>
+            <p id="correctNum"></p>
+            <p id="presentNum"></p>
+            <p id="absentNum"></p>
+        </div>
         <div id="checkup" hidden>
             <div class="confirm-box">
                 <p>Is the game going well?</p>
@@ -37,6 +46,5 @@
     <h2 id="answer"></h2>
 </div>
 <div id="keyboard"></div>
-<br>
 </body>
 </html>

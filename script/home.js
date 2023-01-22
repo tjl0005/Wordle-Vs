@@ -1,9 +1,9 @@
 const modeMessage = "Your currently playing in ";
 const streakMessage = "Your current streak is ";
 
-// Take user to game page
-function redirectGame(){
-    location.href = "game.html";
+// Take user to destination page
+function redirect(dest){
+    location.href = dest + ".html";
 }
 
 // If the mode and streak cookies don't exist yet, create them with default values
@@ -16,7 +16,7 @@ window.onload = function homeInit(){
     }
 
     // Update display text
-    document.getElementById("mode_label").innerText = modeMessage + getCookie("userMode");
+    document.getElementById("mode_label").innerText = modeMessage + getCookie("userMode") + " mode";
     document.getElementById("streak_label").innerText = streakMessage + getCookie("streak");
 };
 
@@ -42,7 +42,7 @@ function setMode(mode){
         mode = getCookie("userMode")
     }
     // Update mode cookie and the display text
-    document.cookie = "userMode = " + mode +  " mode; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
+    document.cookie = "userMode = " + mode +  "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
     document.getElementById("mode_label").innerText = modeMessage + mode + " mode";
 }
 
