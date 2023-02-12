@@ -9,6 +9,11 @@
     width: 400px;
 }
 
+.difficultySettings {
+    display: flex;
+    text-indent: 10px;
+}
+
 #difficulty {
     height: 300px;
     width: 300px;

@@ -11,10 +11,10 @@
 </head>
 <body>
 <h1>Wordle Vs.</h1>
-<hr>
 <button onclick="redirect('home')">Home</button>
 <button onclick="redirect('game')">Play</button>
 <button onclick="redirect('settings')">Settings</button>
+<hr>
 <div id="manual">
     <div id="help">
         <h2>How it Works</h2>
@@ -24,31 +24,30 @@
             <br><br>
             Each guess you make will be followed by the competitor, and it's your job to get the word first.
             <br><br>
+            You can change the difficulty of the game through modes (to the right) or customise to your own taste
+            through settings
+            <br><br>
             Good luck! But also enjoy.
         </p>
     </div>
     <div id="stats">
         <h2>Your Statistics</h2>
-        <p id="streak_label">Your current streak is: 0</p>
-        <p id="mode_label">Your currently playing in Default mode</p>
+        <h4>Streak</h4>
+        <p id="streak">0</p>
+        <h4>Total Games Played</h4>
+        <p id="plays">0</p>
+        <h4>Total Wins</h4>
+        <p id="wins">0</p>
     </div>
     <div id="modes">
         <h2>Modes</h2>
-        <h3>Easy
-            <button onclick="setMode('Easy')">Switch</button>
-        </h3>
+        <h4 id="easy" onclick="setMode('easy')">Easy</h4>
         <p>You get to see the competitors guesses and their colours</p>
-        <h3>Default
-            <button onclick="setMode('Default')">Switch</button>
-        </h3>
+        <h4 id="default" onclick="setMode('default')">Default</h4>
         <p>You get to the see the competitors guesses</p>
-        <h3>Hard
-            <button onclick="setMode('Hard')">Switch</button>
-        </h3>
+        <h4 id="hard" onclick="setMode('hard')">Hard</h4>
         <p>You get to see nothing, just how many correct, present and absent letters your competitor is on</p>
-        <h3>Very Hard
-            <button onclick="setMode('Very Hard')">Switch</button>
-        </h3>
+        <h4 id="very hard" onclick="setMode('very hard')">Very Hard</h4>
         <p>Like hard mode but now the competitor can use your guesses to inform their decisions</p>
     </div>
 </div>

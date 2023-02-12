@@ -1,14 +1,17 @@
 ## TODOs
-### Code:
-    * Improve guessing algorithm
-    * Implement ability for competitor to see guess details (Custom/Very Hard)
-    * Tidy Code/Split common functions
+###
+    * Settings menu -> Navigation Bar -> Display/Difficulty-Mode/Custom-Difficulty/Other
 ### Styling
-    * Statistics + Settings (Icon) in top right
     * Toggle buttons
-    * Accessibility/Readability
+    * Statistics top left
+    * Layout
     * Colour
     * Fonts
     * Assets
-    * Layout
+    * Accessibility/Readability
     * Dark/Light Mode
+    * Adjustable font size
+### Code
+    * Cookie disclosure
+    * Full Breakdown (Inc. Player)
+    * Bug testing

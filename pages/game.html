@@ -11,20 +11,23 @@
 </head>
 
 <body>
-<h1>Wordle Vs.</h1>
+<p>
+    <h1>Wordle Vs.</h1>
+    <button onclick="redirect('home')">Home</button>
+    <button onclick="redirect('game')">Play</button>
+    <button onclick="redirect('settings')">Settings</button>
 <hr>
-<button onclick="redirect('home')">Home</button>
-<button onclick="redirect('game')">Play</button>
-<button onclick="redirect('settings')">Settings</button>
 <div id="boards">
     <div id="player_board"></div>
-    <div id="hints">
-        <h3>Your Hints</h3>
-        <button onclick="giveHint()">I need a hint</button>
-        <p id="hint_one"></p>
-        <p id="hint_two"></p>
-        <p id="hint_three"></p>
-        <p id="final_hint"></p>
+    <div>
+        <div id="hints">
+            <h3>Your Hints</h3>
+            <button onclick="giveHint()">I need a hint</button>
+            <p id="hint_one"></p>
+            <p id="hint_two"></p>
+            <p id="hint_three"></p>
+            <p id="final_hint"></p>
+        </div>
         <button onclick="makeMove()">Step through</button>
         <div>
             <h3 id="competitorDetails"></h3>
