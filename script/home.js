@@ -1,16 +1,20 @@
-// Take user to destination page
-function redirect(dest){
+/**
+ * Take user to specified destination page
+ */
+function redirect(dest) {
     location.href = dest + ".html";
 }
 
-window.onload = function homeInit(){
+/**
+ * As the page is loaded make check if all cookies are present (otherwise create them) and process stats
+ */
+window.addEventListener('DOMContentLoaded', function() {
     let userMode = getCookie("userMode");
-    if (userMode === ""){
-        setMode("Default");
+    if (userMode === "") {
+        document.cookie = "userMode = default; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
         userMode = "default";
     }
-
-    if (getCookie("stats") === ""){
+    if (getCookie("stats") === "") {
         let stats = {
             "streak": 0,
             "plays": 0,
@@ -20,22 +24,27 @@ window.onload = function homeInit(){
         document.cookie = "stats = " + statsCookie + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
         document.getElementById("streak_label").innerText = "0";
     }
-    if (getCookie("gameSettings") === ""){
+    if (getCookie("game") === "") {
         let gameSettings = {
-            "playerLetters": "On", // Visible letters
-            "playerColours": "On", // Visible Colours
-            "playerPresent": "On", // Not implemented
-            "playerCorrect": "On", // Not implemented
+            // Player board visibility
+            "playerLetters": "On",
+            "playerAbsent": "On",
+            "playerPresent": "On",
+            "playerCorrect": "On",
+            // Competitor board visibility
             "compLetters": "On",
-            "compColours": "On",
+            "compAbsent": "On",
             "compPresent": "On",
             "compCorrect": "On",
+            // Competitor can use players guesses and results
+            "sharedLetters": "On",
+            "sharedResults": "Off"
         };
 
         let gameSettingsCookie = JSON.stringify(gameSettings);
-        document.cookie = "gameSettings = " + gameSettingsCookie + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
+        document.cookie = "game = " + gameSettingsCookie + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
     }
-    if (getCookie("displaySettings") === ""){
+    if (getCookie("displaySettings") === "") {
         let displaySettings = {
             "darkMode": "Off",
             "displayFont": "1.0em",
@@ -44,29 +53,36 @@ window.onload = function homeInit(){
         let displaySettingsCookie = JSON.stringify(displaySettings);
         document.cookie = "displaySettings = " + displaySettingsCookie + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
     }
-    if (getCookie("otherSettings") === ""){
+    if (getCookie("other") === "") {
         let otherSettings = {
             "hintsEnabled": "On",
             "showBreakdown": "Off",
+            "stepEnabled": "On",
         };
 
         let otherSettingsCookie = JSON.stringify(otherSettings);
-        document.cookie = "otherSettings = " + otherSettingsCookie + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
+        document.cookie = "other = " + otherSettingsCookie + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
     }
 
-    if (getCookie("reset")){
+    if (getCookie("reset")) {
         document.cookie = "reset=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-        redirect("settings")
+        redirect("settings");
     }
 
-    document.getElementById(userMode.toLowerCase()).style.color = "green";
-    document.getElementById(userMode.toLowerCase()).style.fontSize = "1.2em";
+    document.getElementById(userMode).style.color = "green";
+    document.getElementById(userMode).style.fontSize = "1.2em";
+
+    if (userMode === "custom"){
+        document.getElementById(userMode).hidden = false;
+    } else{
+        document.getElementById("custom").hidden = true;
+    }
+
     let stats = [JSON.parse(getCookie("stats"))]
 
     // Go through all settings and update the page
-    for(let i = 0; i < stats.length; i++) {
+    for (let i = 0; i < stats.length; i++) {
         for (let [stat, value] of Object.entries(stats[i])) {
-            console.log(stat)
             if (stat === "streak") {
                 document.getElementById(stat).innerText = value.toString();
             } else {
@@ -74,26 +90,13 @@ window.onload = function homeInit(){
             }
         }
     }
-};
+});
 
-// Given a cookie name get its value
+/**
+ * Given a cookie name get its value
+ * @param {string} cname - cookie name
+ * @returns {string} cookie - specified cookie
+ */
 function getCookie(cname) {
     return document.cookie.match('(^|;)\\s*' + cname + '\\s*=\\s*([^;]+)')?.pop() || '';
 }
-
-// Update game mode to given value
-function setMode(mode){
-    let previousMode = getCookie("userMode")
-    if (mode === ""){
-        mode = getCookie("userMode");
-    }
-    // Update mode cookie and the display text
-    document.cookie = "userMode = " + mode +  "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
-
-    // Update displayed text to indicate current mode
-    document.getElementById(mode.toLowerCase()).style.color = "green";
-    document.getElementById(mode.toLowerCase()).style.fontSize = "1.2em";
-    document.getElementById(previousMode.toLowerCase()).style.color = "black";
-    document.getElementById(previousMode.toLowerCase()).style.fontSize = "1em";
-}
-

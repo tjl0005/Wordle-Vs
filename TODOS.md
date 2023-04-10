@@ -1,7 +1,5 @@
 ## TODOs
-###
-    * Settings menu -> Navigation Bar -> Display/Difficulty-Mode/Custom-Difficulty/Other
-### Styling
+### Styling (To Return To)
     * Toggle buttons
     * Statistics top left
     * Layout
@@ -11,7 +9,3 @@
     * Accessibility/Readability
     * Dark/Light Mode
     * Adjustable font size
-### Code
-    * Cookie disclosure
-    * Full Breakdown (Inc. Player)
-    * Bug testing

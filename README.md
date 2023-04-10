@@ -11,6 +11,8 @@ The home screen will tell you everything you need to know. But a basic rundown o
 * Hard - You don't get to see anything from your competitor but how many letters they've got right.
 * Very Hard - You don't see anything but your competitor sees all your guesses and your colours
 
+* Custom - You can mix and match elements from these modes and beyond to create your own challenge
+
 The competitor will only guess potential solutions and not any acceptable word to ensure it will be competitive and
 also somewhat efficient. Streaks are currently only planned to exist for all modes combined, not individual modes, 
 although this may change.

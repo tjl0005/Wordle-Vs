@@ -20,9 +20,7 @@
 <div id="settings">
     <div id="display">
         <h2>Display  <i class="fa fa-paint-brush"></i></h2>
-        <p>Dark Mode
-            <button id="darkMode" onclick="updateSetting('displaySettings', 'darkMode')"></button>
-        </p>
+        <p>Dark Mode <button id="darkMode" onclick="updateSetting('displaySettings', 'darkMode', false)"></button></p>
         <p>Font size</p>
         <p id="displayFont">
             <button id="fontReduce" onclick="updateFont('reduce')">-</button>
@@ -37,33 +35,38 @@
           'this.\n\n'+
           'If you want a more competitive game then you can allow your competitor to see these same details about your'+
           ' guesses, which will inform their next guess.\n\n' +
-          'Present and Correct affect to visibility, if you want you can hide these features for either player\n\n'+
-          'Note: These settings cannot be used with modes.')"
-        ><i class="fa fa-question-circle-o"></i>
-        </button></h2>
+          'Absent, Present and Correct affect visibility, if you want you can hide these features for either player\n\n'
+          + 'Shared aspects mean that your competitor can use your letters and/or results (E.g. Correct letters) ' +
+           'to inform their next guess, this does not affect whether you can use your competitors details\n\n'+
+          'NOTE: Changing these settings will switch your mode, but this can be changed on the homepage')"
+            ><i class="fa fa-question-circle-o"></i>
+            </button></h2>
         <h3>Player</h3>
-        <div class = difficultySettings>
-            <p>Letters<button id="playerLetters" onclick="updateSetting('gameSettings', 'playerLetters')"></button></p>
-            <p>Colours<button id="playerColours" onclick="updateSetting('gameSettings', 'playerColours')"></button></p>
-            <p>Present<button id="playerPresent" onclick="updateSetting('gameSettings', 'playerPresent')"></button></p>
-            <p>Correct<button id="playerCorrect" onclick="updateSetting('gameSettings', 'playerCorrect')"></button></p>
-            </div>
+        <div class=difficultySettings>
+            <p>Letters<button id="playerLetters" onclick="updateSetting('game', 'playerLetters', true);"></button></p>
+            <p>Absent<button id="playerAbsent" onclick="updateSetting('game', 'playerAbsent', true);"></button></p>
+            <p>Present<button id="playerPresent" onclick="updateSetting('game', 'playerPresent', true);"></button></p>
+            <p>Correct<button id="playerCorrect" onclick="updateSetting('game', 'playerCorrect', true);"></button></p>
+        </div>
         <br>
         <h3>Competitor</h3>
-        <div class = difficultySettings>
-            <p>Letters<button id="compLetters" onclick="updateSetting('gameSettings', 'compLetters')"></button></p>
-            <p>Colours<button id="compColours" onclick="updateSetting('gameSettings', 'compColours')"></button></p>
-            <p>Present<button id="compPresent" onclick="updateSetting('gameSettings', 'compPresent')"></button></p>
-            <p>Correct<button id="compCorrect" onclick="updateSetting('gameSettings', 'compCorrect')"></button></p>
-            </div>
+        <div class=difficultySettings>
+            <p>Letters<button id="compLetters" onclick="updateSetting('game', 'compLetters', true);"></button></p>
+            <p>Absent<button id="compAbsent" onclick="updateSetting('game', 'compAbsent', true);"></button></p>
+            <p>Present<button id="compPresent" onclick="updateSetting('game', 'compPresent', true);"></button></p>
+            <p>Correct<button id="compCorrect" onclick="updateSetting('game', 'compCorrect', true);"></button></p>
+        </div>
+        <p>Shared Letters <button id="sharedLetters" onclick="updateSetting('game', 'sharedLetters', true)"></button></p>
+        <p>Shared Results <button id="sharedResults" onclick="updateSetting('game', 'sharedResults', true)"></button></p>
     </div>
     <div id="other">
         <h2>Other  <i class="fa fa-folder-open"></i></h2>
-        <p>Hints<button id="hintsEnabled" onclick="updateSetting('otherSettings', 'hintsEnabled')"></button></p>
-        <p>Breakdown<button id="showBreakdown" onclick="updateSetting('otherSettings', 'showBreakdown')"></button></p>
+        <p>Hints <button id="hintsEnabled" onclick="updateSetting('other', 'hintsEnabled', false)"></button></p>
+        <p>Breakdown <button id="showBreakdown" onclick="updateSetting('other', 'showBreakdown', false)"></button></p>
+        <p>Step through <button id="stepEnabled" onclick="updateSetting('other', 'stepEnabled', false)"></button></p>
         <button onclick="deleteAllCookies()">Clear Cookies</button>
         <br><br>
-        <button onclick="resetSettings()">Reset Settings</button>
+        <button onclick="resetSettings(); location.reload();">Reset Settings</button>
     </div>
 </div>
 </body>

@@ -10,7 +10,7 @@
     flex-wrap: wrap;
 }
 
-#vs_board {
+#comp_board {
     /* Fit to Grid*/
     width: 350px;
     margin: auto;
@@ -49,7 +49,7 @@
 .absent {
     background-color: #787C7E;
     color: #ffffff;
-    border-color:#ffffff;
+    border-color: #ffffff;
 }
 
 .keyboard-row {

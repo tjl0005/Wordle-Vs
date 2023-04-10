@@ -1,88 +1,82 @@
-// Take user to destination page
-function redirect(dest){
+/**
+ * Take user to destination page
+ * @param {string} dest - specific page
+ */
+function redirect(dest) {
     location.href = dest + ".html";
 }
 
-// If the mode and streak cookies don't exist yet, create them with default values
-window.onload = function settingsInit(){
+/**
+ * Update page to reflect current settings, if required cookies are missing redirect to homepage
+ */
+window.addEventListener('DOMContentLoaded', function() {
     // Retrieve all settings
     try {
-        let settings = [JSON.parse(getCookie("gameSettings")), JSON.parse(getCookie("displaySettings")),
-            JSON.parse(getCookie("otherSettings"))]
+        let settings = [JSON.parse(getCookie("game")), JSON.parse(getCookie("displaySettings")),
+            JSON.parse(getCookie("other"))];
 
-        // Go through all settings and update the page
-        for(let i = 0; i < settings.length; i++) {
-            for (let [setting, value] of Object.entries(settings[i])) {
-                // Display font is a style change not an innerHTML change
-                if (setting === "displayFont") {
-                    document.getElementById(setting).style.fontSize = value.toString();
-                } else {
-                    document.getElementById(setting).innerHTML = value.toString();
+        if (location.pathname.includes("settings")) {
+            // Go through all settings and update the page
+            for (let i = 0; i < settings.length; i++) {
+                for (let [setting, value] of Object.entries(settings[i])) {
+                    // Display font is a style change not an innerHTML change
+                    if (setting === "displayFont") {
+                        document.getElementById(setting).style.fontSize = value.toString();
+                    } else {
+                        document.getElementById(setting).innerHTML = value.toString();
+                    }
                 }
             }
         }
-    }
-    catch{
-        if (!getCookie("reset")){
+    } catch (e) {
+        console.error(e);
+        if (!getCookie("reset")) {
+            document.cookie = "reset=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
             alert("You are being redirected as you are missing essential cookies.");
+            redirect("home");
         }
-        redirect("home");
     }
-};
+});
 
-function updateFont(method){
+/**
+ * Either increase or decrease font size, NOTE: This does not currently change font size for all elements
+ * @param {string} method - reduce or increase
+ */
+function updateFont(method) {
     const fontSizes = ["0.5em", "0.6em", "0.7em", "0.8em", "0.9em", "1em", "1.5em", "2em", "2.5em", "3em"];
 
     let currentSize = document.getElementById("displayFont").style.fontSize;
     let currentIndex = fontSizes.indexOf(currentSize);
 
-    if (method === "reduce"){
-        document.getElementById("displayFont").style.fontSize = fontSizes[currentIndex - 1]
-    }
-    else{
-        document.getElementById("displayFont").style.fontSize = fontSizes[currentIndex + 1]
+    if (method === "reduce") {
+        document.getElementById("displayFont").style.fontSize = fontSizes[currentIndex - 1];
+    } else {
+        document.getElementById("displayFont").style.fontSize = fontSizes[currentIndex + 1];
     }
 }
 
-// Given a cookie name get its value
+/**
+ * Given a cookie name get its value
+ * @param {string} cname - name of cookie
+ * @returns {string} cookie - specified cookie
+ */
 function getCookie(cname) {
     return document.cookie.match('(^|;)\\s*' + cname + '\\s*=\\s*([^;]+)')?.pop() || '';
 }
 
-function setCookie(setting, content){
-    document.cookie = setting + " = " + content +  "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
+/**
+ * Update cookie contents
+ * @param {string} setting - refers to specific setting stored as cookie
+ * @param {string} content - new contents for cookie
+ */
+function setCookie(setting, content) {
+    document.cookie = setting + " = " + content + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
 }
 
-function updateSetting(type, setting){
-    let contents = JSON.parse(getCookie(type));
-
-    // Changing any difficulty settings means custom difficulty enabled
-    if (type === "difficulty"){
-        document.cookie = "userMode = Custom; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
-    }
-    // Get relevant setting status and update contents
-    if (contents[setting].toString() === "On"){
-        contents[setting] = "Off";
-    }
-    else{
-        contents[setting] = "On";
-    }
-    // Apply content changes to cookie
-    setCookie(type, JSON.stringify(contents));
-    // Update relevant element with new content
-    document.getElementById(setting).innerHTML = contents[setting]
-}
-
-function resetSettings(){
-    document.cookie = "gameSettings =reset;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "displaySettings =;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "otherSettings =;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    // Flag to redirect back to settings
-    document.cookie = "reset = " + true +  "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
-
-    location.reload();
-}
-
+/**
+ * Delete all cookies generated by the site and redirect the user to the homepage so these cookies can be
+ * setup again
+ */
 function deleteAllCookies() {
     const cookies = document.cookie.split(";");
     // Find better solution
@@ -92,6 +86,119 @@ function deleteAllCookies() {
         const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
+    redirect("home");
+}
 
-    location.reload();
+/**
+ * Specify setting and content type to update the setting value
+ * @param {string} type - setting type
+ * @param {string} setting - name of setting
+ * @param {boolean} customSetting - true if custom setting is being applied otherwise false
+ */
+function updateSetting(type, setting, customSetting) {
+    let contents = JSON.parse(getCookie(type));
+    let previousMode = getCookie("userMode");
+
+    if (customSetting && previousMode !== "custom") {
+        switchMode("custom");
+    }
+    // Get relevant setting status and update contents
+    if (contents[setting].toString() === "On") {
+        contents[setting] = "Off";
+    } else {
+        contents[setting] = "On";
+    }
+    // Apply content changes to cookie
+    setCookie(type, JSON.stringify(contents));
+
+    if (location.pathname.includes("settings")){
+        // Update relevant element with new content
+        document.getElementById(setting).innerHTML = contents[setting];
+    }
+}
+
+/**
+ * Revert all changes made to any settings and cookie contents
+ */
+function resetSettings() {
+    let gameSettings = {
+        // Player board visibility
+        "playerLetters": "On",
+        "playerAbsent": "On",
+        "playerPresent": "On",
+        "playerCorrect": "On",
+        // Competitor board visibility
+        "compLetters": "On",
+        "compAbsent": "On",
+        "compPresent": "On",
+        "compCorrect": "On",
+        // Competitor can use players guesses and results
+        "sharedLetters": "On",
+        "sharedResults": "Off",
+    };
+
+    let otherSettings = {
+        "hintsEnabled": "On",
+        "showBreakdown": "Off",
+        "stepEnabled": "On",
+    };
+
+    let gameSettingsCookie = JSON.stringify(gameSettings);
+    let otherSettingsCookie = JSON.stringify(otherSettings);
+
+    document.cookie = "game = " + gameSettingsCookie + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
+    document.cookie = "other = " + otherSettingsCookie + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
+}
+
+/**
+ * Update game mode to given value
+ * @param {string} mode - mode to update game to
+ */
+function setMode(mode) {
+    if (mode === "") {
+        mode = getCookie("userMode");
+    }
+
+    // Ensure all settings are default before updating them
+    resetSettings()
+
+    // Settings are updated to reflect desired mode
+    switch(mode) {
+        case "hard":
+            updateSetting("game", "compCorrect", false);
+            updateSetting('other', 'showBreakdown', false);
+            break;
+        case "very hard":
+            updateSetting("game", "compPresent", false);
+            updateSetting("game", "compCorrect", false);
+            updateSetting("game", "compAbsent", false);
+            updateSetting("game", "compLetters", false);
+            updateSetting("game", "sharedResults", false);
+            updateSetting('other', 'showBreakdown', false);
+            break;
+    }
+    switchMode(mode);
+}
+
+/**
+ * Update homepage to reflect the current mode
+ * @param {string} mode - mode that is being switched to
+ */
+function switchMode(mode){
+    let previousMode = getCookie("userMode");
+    // Update mode cookie and the display text
+    document.cookie = "userMode = " + mode + "; expires=Fri, 31 Dec 9999 23:59:59 GMT\"";
+
+    if (mode === "custom") {
+        document.getElementById("custom").hidden = false;
+    } else {
+        // Update displayed text to indicate current mode
+        document.getElementById(mode).style.color = "green";
+        document.getElementById(mode).style.fontSize = "1.2em";
+        document.getElementById("custom").hidden = true;
+    }
+    if (mode !== previousMode){
+        document.getElementById(previousMode).style.color = "black";
+        document.getElementById(previousMode).style.fontSize = "1em";
+    }
 }

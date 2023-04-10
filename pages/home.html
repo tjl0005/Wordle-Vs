@@ -6,6 +6,7 @@
     <link rel="icon" href="https://www.freeiconspng.com/thumbs/idea-icon/ideas-light-bulb-icon-16.png">
     <meta name="viewport" content="width=device-width, initial-scale=0, user-scalable=no">
     <script src="../script/home.js"></script>
+    <script src="../script/settings.js"></script>
     <link rel="stylesheet" href="../style/home.css">
     <link rel="stylesheet" href="../style/common.css">
 </head>
@@ -24,10 +25,7 @@
             <br><br>
             Each guess you make will be followed by the competitor, and it's your job to get the word first.
             <br><br>
-            You can change the difficulty of the game through modes (to the right) or customise to your own taste
-            through settings
-            <br><br>
-            Good luck! But also enjoy.
+            You can change the difficulty of the game through modes (to the right) or customise through settings
         </p>
     </div>
     <div id="stats">
@@ -41,14 +39,13 @@
     </div>
     <div id="modes">
         <h2>Modes</h2>
-        <h4 id="easy" onclick="setMode('easy')">Easy</h4>
-        <p>You get to see the competitors guesses and their colours</p>
         <h4 id="default" onclick="setMode('default')">Default</h4>
-        <p>You get to the see the competitors guesses</p>
+        <p>You get to the see the competitors guesses and if their letters are correct, present or absent</p>
         <h4 id="hard" onclick="setMode('hard')">Hard</h4>
-        <p>You get to see nothing, just how many correct, present and absent letters your competitor is on</p>
+        <p>You can see your competitors guesses and if their letters are present or absent, not if they are correct</p>
         <h4 id="very hard" onclick="setMode('very hard')">Very Hard</h4>
-        <p>Like hard mode but now the competitor can use your guesses to inform their decisions</p>
+        <p>You see nothing from your competitor and they can use your guesses to inform their decisions</p>
+        <h4 id="custom" hidden>You are currently in custom mode.</h4>
     </div>
 </div>
 </body>
